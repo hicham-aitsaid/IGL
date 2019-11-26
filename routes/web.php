@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,17 +24,19 @@ Route::get('/etudiant', function () {
     return view('etudiant');
 });
 Route::get('/afficher', function () {
-	$etudiant = etudiant::all();
-    return view('afficher')->with('etudiant', $etudiant);
-});
-Route::post('/etudiant/ajouteretudiant', function(){
-
-      $name = request('name');
-	 $password= request('password');
-	 $promo=request('promo');
-    $matricule=request('matricule') ;
-   $email=request('email') ;
-     $groupe  = request('groupe');
+    error_log('hello');
+    $etudiant = etudiant::all();
+    return json_encode($etudiant) ;
+    
+})->middleware('cors');
+Route::post('/etudiant/ajouteretudiant', function(Request $request){
+$req = json_decode($request->getContent())->data; 
+      $name = $req->name ;
+	 $password= $req->password;
+	 $promo=$req->promo;
+    $matricule=$req->matricule ;
+   $email=$req->email ;
+     $groupe  = $req->groupe;
   
     
             ////
